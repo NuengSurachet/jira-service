@@ -4,11 +4,13 @@ import { NextResponse } from 'next/server';
 import axiosInstance from '../../../utils/axiosInstance';
 
 // ฟังก์ชัน POST สำหรับสร้าง Issue
-export async function POST() {
+export async function POST(request) {
     const { PROJECT_KEY } = process.env;
+    const body = await request.json();
 
     try {
         // อ่าน body ที่ส่งมาจากฝั่ง Client
+        console.log(body);
 
 
         // เรียก Jira API เพื่อสร้าง Issue
@@ -18,7 +20,7 @@ export async function POST() {
                     "project": {
                         "key": PROJECT_KEY
                     },
-                    "summary": ,
+                    "summary": body.title,
                     "description": {
                         "type": "doc",
                         "version": 1,
@@ -27,7 +29,7 @@ export async function POST() {
                                 "type": "paragraph",
                                 "content": [
                                     {
-                                        "text": "รายละเอียดปัญหา...",
+                                        "text": body.description,
                                         "type": "text"
                                     }
                                 ]
@@ -35,11 +37,15 @@ export async function POST() {
                         ]
                     },
                     "issuetype": {
-                        "name": "Bug"
+                        "name": body.issueType.charAt(0).toUpperCase() + body.issueType.slice(1)
                     },
                     "customfield_10037": "suk25444@gmail.com",
+                    "priority": {
+                        "name": "Lowest" // กำหนด Priority เช่น Medium, High, Low
+                    }
                 }
             }
+
         );
 
         // ส่งคำตอบกลับ

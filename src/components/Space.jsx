@@ -10,7 +10,11 @@ import {
 } from "lucide-react";
 import "@/app/globals.css";
 
-import { fetchPriorities, fetchAllProjects,createIssue } from "../utils/apiClient";
+import {
+  fetchPriorities,
+  fetchAllProjects,
+  createIssue,
+} from "../utils/apiClient";
 const IssuePortalApp = () => {
   // State management
   const [currentPage, setCurrentPage] = useState("portal");
@@ -53,7 +57,7 @@ const IssuePortalApp = () => {
     getallProjects();
     getPriorities();
   }, []);
- 
+
   if (loading) return <p>Loading priorities...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -101,9 +105,7 @@ const IssuePortalApp = () => {
       issueType: selectedIssueType,
       ...formData,
     });
-    createIssue(formData)
-   
- 
+    createIssue({ issueType: selectedIssueType, ...formData });
   };
 
   // Render content based on current page
@@ -192,7 +194,7 @@ const IssuePortalApp = () => {
               <div className="space-y-4">
                 <div
                   className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition duration-150"
-                  onClick={() => handleIssueTypeClick("bug")}
+                  onClick={() => handleIssueTypeClick("Bug")}
                 >
                   <Bug className="w-5 h-5 text-blue-500" />
                   <div className="flex flex-col">
@@ -269,7 +271,7 @@ const IssuePortalApp = () => {
               <div className="mb-6">
                 <div className="text-sm text-gray-600 mb-2">IssueType</div>
                 <div className="flex items-center space-x-3 p-3 border rounded-lg bg-gray-50">
-                  {selectedIssueType === "bug" && (
+                  {selectedIssueType === "Bug" && (
                     <>
                       <Bug className="w-5 h-5 text-blue-500" />
                       <div className="flex flex-col">
@@ -367,10 +369,10 @@ const IssuePortalApp = () => {
                   }
                 >
                   {priorities.map((priority) => (
-                    <option key={priority.id} value={priority.id}>
+                    <option key={priority.id} value={priority.name}>
                       {priority.name}
                     </option>
-                  ))} 
+                  ))}
                 </select>
               </div>
 
