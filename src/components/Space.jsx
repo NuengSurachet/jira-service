@@ -22,7 +22,7 @@ const IssuePortalApp = () => {
   const [formData, setFormData] = useState({
     product: "",
     scene: "",
-    priority: "None",
+    priority: "",
     title: "",
     description: "",
   });
