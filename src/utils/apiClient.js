@@ -29,7 +29,7 @@ const fetchAllProjects = async () => {
 
 const createIssue = async (issueData) => {
   console.log('Creating issue:', issueData);
-  
+
   try {
     // เรียก POST ไปยัง /api/createIssue
     const res = await axios.post('/api/createIssue', issueData);
@@ -40,5 +40,15 @@ const createIssue = async (issueData) => {
     throw err;
   }
 };
+const getScenes = async () => {
+  try {
+    const res = await axios.get('/api/getscene');
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.error('Error fetching projects:', err.response ? err.response.data : err.message);
+    throw err;
+  }
+};
 
-export { fetchAllProjects, fetchPriorities,createIssue };
+export { fetchAllProjects, fetchPriorities, createIssue, getScenes };

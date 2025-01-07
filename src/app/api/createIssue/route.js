@@ -39,10 +39,8 @@ export async function POST(request) {
                     "issuetype": {
                         "name": body.issueType.charAt(0).toUpperCase() + body.issueType.slice(1)
                     },
-                    "customfield_10037": "suk25444@gmail.com",
-                    "priority": {
-                        "name": "Lowest" // กำหนด Priority เช่น Medium, High, Low
-                    }
+                    "customfield_10038": { "id": body.scene }, // ใช้ id "10024"
+                    "priority": { "name": body.priority }    // ใช้ name เช่น "Medium"
                 }
             }
 

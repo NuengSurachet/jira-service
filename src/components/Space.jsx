@@ -11,6 +11,7 @@ import {
 import "@/app/globals.css";
 
 import {
+  getScenes,
   fetchPriorities,
   fetchAllProjects,
   createIssue,
@@ -30,11 +31,22 @@ const IssuePortalApp = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [allProjects, setAllProjects] = useState([]);
+  const [scene, setScene] = useState([]);
   useEffect(() => {
     const getPriorities = async () => {
       try {
         const data = await fetchPriorities();
         setPriorities(data.values || []);
+      } catch (error) {
+        setError(error.message || "Failed to fetch priorities");
+      } finally {
+        setLoading(false);
+      }
+    };
+    const getAllScenes = async () => {
+      try {
+        const data = await getScenes();
+        setScene(data.values || []);
       } catch (error) {
         setError(error.message || "Failed to fetch priorities");
       } finally {
@@ -53,7 +65,7 @@ const IssuePortalApp = () => {
         setLoading(false);
       }
     };
-
+    getAllScenes();
     getallProjects();
     getPriorities();
   }, []);
@@ -103,9 +115,18 @@ const IssuePortalApp = () => {
     e.preventDefault();
     console.log("Form submitted:", {
       issueType: selectedIssueType,
+      priority: formData.priority,
+      scene: formData.scene,
+      product: formData.product,
       ...formData,
     });
-    createIssue({ issueType: selectedIssueType, ...formData });
+    createIssue({
+      issueType: selectedIssueType,
+      priority: formData.priority,
+      scene: formData.scene,
+      product: formData.product,
+      ...formData,
+    });
   };
 
   // Render content based on current page
@@ -327,14 +348,18 @@ const IssuePortalApp = () => {
                 <select
                   className="w-full p-2 border rounded-md"
                   value={formData.product}
-                  onChange={(e) =>
-                    setFormData({ ...formData, product: e.target.value })
-                  }
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    setFormData({ ...formData, product: e.target.value });
+                  }}
                   required
                 >
-                  {allProjects.map((projects) => (
-                    <option key={projects.id} value={projects.key}>
-                      {projects.name}
+                  <option value="" disabled>
+                    --
+                  </option>
+                  {allProjects.map((Product) => (
+                    <option key={Product.id} value={Product.name}>
+                      {Product.name}
                     </option>
                   ))}
                 </select>
@@ -351,9 +376,14 @@ const IssuePortalApp = () => {
                     setFormData({ ...formData, scene: e.target.value })
                   }
                 >
-                  <option value="">Scene</option>
-                  <option value="scene1">Scene 1</option>
-                  <option value="scene2">Scene 2</option>
+                  <option value="" disabled>
+                    --
+                  </option>
+                  {scene.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.value}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -363,11 +393,15 @@ const IssuePortalApp = () => {
                 </label>
                 <select
                   className="w-full p-2 border rounded-md"
-                  value={priorities.priority}
-                  onChange={(e) =>
-                    setFormData({ ...formData, priority: e.target.value })
-                  }
+                  value={formData.priority}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    setFormData({ ...formData, priority: e.target.value });
+                  }}
                 >
+                  <option value="" disabled>
+                    --
+                  </option>
                   {priorities.map((priority) => (
                     <option key={priority.id} value={priority.name}>
                       {priority.name}
