@@ -41,7 +41,7 @@ export async function POST(request) {
                     },
                     "customfield_10037": "suk25444@gmail.com",
                     "priority": {
-                        "name": body.priority // กำหนด Priority เช่น Medium, High, Low
+                        "name": "Lowest" // กำหนด Priority เช่น Medium, High, Low
                     }
                 }
             }

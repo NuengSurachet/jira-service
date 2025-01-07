@@ -207,7 +207,7 @@ const IssuePortalApp = () => {
 
                 <div
                   className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition duration-150"
-                  onClick={() => handleIssueTypeClick("change-request")}
+                  onClick={() => handleIssueTypeClick("ChangeRequest")}
                 >
                   <FileText className="w-5 h-5 text-blue-500" />
                   <div className="flex flex-col">
@@ -282,7 +282,7 @@ const IssuePortalApp = () => {
                       </div>
                     </>
                   )}
-                  {selectedIssueType === "change-request" && (
+                  {selectedIssueType === "ChangeRequest" && (
                     <>
                       <FileText className="w-5 h-5 text-blue-500" />
                       <div className="flex flex-col">
@@ -309,7 +309,7 @@ const IssuePortalApp = () => {
                 </div>
               </div>
 
-              {selectedIssueType === "change-request" && (
+              {selectedIssueType === "ChangeRequest" && (
                 <div className="mb-4 text-sm text-blue-500">
                   Template CR Form ↓
                 </div>
